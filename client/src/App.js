@@ -23,6 +23,10 @@ const router = createBrowserRouter([
     path: "/plannerform",
     element: <TravelForm />,
   },
+  {
+    path: "/destination/:location",
+    element: <TravelForm />,
+  },
 ]);
 function App() {
   return (
