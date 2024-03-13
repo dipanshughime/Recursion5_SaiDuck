@@ -57,7 +57,7 @@ console.log('Model loaded.',  loadedModel)
     }
 
    const headers = {
-    "Authorization": "Bearer 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",
+    "Authorization": "Bearer ",
     "Content-Type": "application/json" 
    }
 
