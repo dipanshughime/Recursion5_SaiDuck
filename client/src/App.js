@@ -5,6 +5,7 @@ import { dark } from "@clerk/themes";
 import Login from "./pages/Login";
 import Onboarding from "./pages/OnBoarding";
 import Home from "./pages/Home";
+import TravelForm from "./pages/TravelForm";
 
 const router = createBrowserRouter([
   {
@@ -19,7 +20,10 @@ const router = createBrowserRouter([
     path: "/",
     element: <Home />,
   },
- 
+  {
+    path: "/plannerform",
+    element: <TravelForm/>,
+  }, 
  
  
 ]);

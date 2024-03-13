@@ -62,6 +62,13 @@ import {
                 <SignOutButton />
               </SignedIn>
             </button>
+
+            <button
+                  onClick={() => navigate("/plannerform")}
+                  className="btn btn-neutral"
+                >
+                  Plan  a trip
+                </button>
           </div>
         </div>
         <div className="mt-36 flex flex-col items-center">
