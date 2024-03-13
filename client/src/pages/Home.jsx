@@ -16,6 +16,7 @@ import Navbar from "../components/Navbar";
 import SearchIcon from "../icons/SearchIcon";
 import upload from "../utils/upload";
 import { Toaster, toast } from "react-hot-toast";
+import TravelForm from "./TravelForm";
 
 const Home = () => {
   const navigate = useNavigate();
@@ -135,6 +136,7 @@ const Home = () => {
           <SearchIcon />
           Get Started
         </button>
+        {/* Open the modal using document.getElementById('ID').showModal() method */}
       </div>
     </div>
   );
