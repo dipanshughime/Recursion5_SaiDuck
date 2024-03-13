@@ -5,6 +5,8 @@
   "dependencies": {
     "@clerk/clerk-react": "^4.30.5",
     "@clerk/themes": "^1.7.9",
+    "@react-three/drei": "^9.102.3",
+    "@react-three/fiber": "^8.15.19",
     "antd": "^5.14.1",
     "axios": "^1.6.7",
     "dayjs": "^1.11.10",
@@ -20,6 +22,7 @@
     "react-lottie": "^1.2.4",
     "react-router-dom": "^6.22.1",
     "react-scripts": "5.0.1",
+    "three": "^0.162.0",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
