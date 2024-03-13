@@ -1,4 +1,3 @@
-import "./App.css";
 import { ClerkProvider } from "@clerk/clerk-react";
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import { dark } from "@clerk/themes";
@@ -22,10 +21,8 @@ const router = createBrowserRouter([
   },
   {
     path: "/plannerform",
-    element: <TravelForm/>,
-  }, 
- 
- 
+    element: <TravelForm />,
+  },
 ]);
 function App() {
   return (
