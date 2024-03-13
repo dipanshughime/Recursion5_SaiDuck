@@ -6,22 +6,15 @@ import Onboarding from "./pages/OnBoarding";
 import Home from "./pages/Home";
 import TravelForm from "./pages/TravelForm";
 import ImageDescription from "./pages/ImageDescription";
-<<<<<<< HEAD
-import ChatBot from "./pages/ChatBot";
-import { Example } from "@react-three/drei";
-=======
+// import ChatBot from "./pages/ChatBot";
+// import { Example } from "@react-three/drei";
 import ChatBot from "./pages/Chat";
 import Example from "./components/SpeechToText";
->>>>>>> 15b1f4923b4545d4ea43ea9e1946dfb54ddee8b0
 
 const router = createBrowserRouter([
   {
     path: "/speech",
-<<<<<<< HEAD
-    element: <Example/>,
-=======
     element: <Example />,
->>>>>>> 15b1f4923b4545d4ea43ea9e1946dfb54ddee8b0
   },
   {
     path: "/chat",

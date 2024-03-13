@@ -14,7 +14,7 @@
 // export default ChatBot
 import React, {useRef, useEffect, useState} from 'react';
 // import logo from './logo.svg';
-import './ChatBot.css';
+// import './Chatbot.css';
 
 // 0. Install dependencies
 // npm i @tensorflow/tfjs @tensorflow-models/qna react-loader-spinner
