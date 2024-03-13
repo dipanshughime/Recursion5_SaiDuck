@@ -5,10 +5,10 @@ const FormDialog = () => {
   return (
     <>
       <button
-        className="btn"
+        className="btn px-6"
         onClick={() => document.getElementById("my_modal_3").showModal()}
       >
-        open modal
+        Plan A Trip
       </button>
       <dialog id="my_modal_3" className="modal">
         <div className="modal-box bg-[#000004] flex flex-col items-center">

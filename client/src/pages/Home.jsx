@@ -77,7 +77,14 @@ const Home = () => {
 
   return (
     <div className="relative bg-[#0004] h-screen w-full overflow-x-hidden">
-      {/* <Navbar /> */}
+      <button className="absolute right-6 top-6 z-30 btn px-12 bg-slate-300 rounded-md">
+        <SignedOut>
+          <SignInButton />
+        </SignedOut>
+        <SignedIn>
+          <SignOutButton />
+        </SignedIn>
+      </button>
       <Toaster />
       <div className="h-screen w-full bg-black ">
         <Canvas shadows camera={{ position: [13, 5, 3], fov: 30 }}>

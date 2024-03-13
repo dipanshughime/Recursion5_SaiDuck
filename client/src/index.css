@@ -18,6 +18,7 @@ body {
   background-color: #000004;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  @apply bg-[#000004];
 }
 
 .prevent-select {
