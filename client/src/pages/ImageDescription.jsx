@@ -4,7 +4,6 @@ import './ImageDescription.css'; // Import CSS file
 import axios from 'axios';
 import CarouselDefault from '../components/Carousel';
 import { useLocation } from 'react-router-dom';
-
 const ImageDescription = () => {
     const location = useLocation();
     console.log(location.state.location_name)
