@@ -30,7 +30,7 @@ import toast from 'react-hot-toast';
 import { useUser } from '@clerk/clerk-react';
 
 
-const ChatBot = () => {
+const ChatBot = ({data}) => {
 const {user} = useUser()
 
   // 3. Setup references and state hooks
@@ -38,7 +38,6 @@ const {user} = useUser()
   const questionRef = useRef(null);
   const [answer, setAnswer] = useState(); 
   const [model, setModel] = useState(null); 
-  const [data, setData]= useState("")
 
   // 4. Load Tensorflow Model
   const loadModel = async ()=>{
@@ -75,30 +74,6 @@ console.log('Model loaded.',  loadedModel)
   };
 
 
-  const getgptData = async ()=>  {
-   const body =  {  
-        "model":"gpt-3.5-turbo",
-        "messages": [
-          { 
-            "role": "user",
-          "content": "give me a 2000 word description of taj mahal including its history, geogrophical location and importance and much more as per wikipedia also give me how to reach there via various means of transport from andheri, mumbai if i will departure today in simple words and in single paragraph"
-           }]
-    }
-
-   const headers = {
-    "Authorization": "Bearer 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",
-    "Content-Type": "application/json" 
-   }
-
- try {
-    const res = await axios.post("https://api.openai.com/v1/chat/completions",body,{headers:headers})
-    console.log(res.data.choices[0].message.content);
-    setData(res.data.choices[0].message.content);
- }catch(e){
-    console.log("err")
-    toast.error("Error fetching data from OpenAI API");
- }
-  }
 
   const [yourQues, setYourQues] = useState([])
   
@@ -114,8 +89,7 @@ console.log('Model loaded.',  loadedModel)
        q: question}]);
 
      
-      console.log("data", data)
-      console.log("question", question)
+   
 
       const answers = await model.findAnswers(question, data)
     
@@ -133,7 +107,7 @@ console.log('Model loaded.',  loadedModel)
 
   useEffect(()=>{
     loadModel()
-    getgptData()
+    // getgptData()
 }, [])
  
 
@@ -185,7 +159,7 @@ console.log('Model loaded.',  loadedModel)
                             {
                                 q.q.length > 0 && 
                                 q.q.map((res, index)=>{
-                                    return <div 
+                                    return <div  key={index}
                             
                                     className='bg-red-500 my-2
                                     px-2 py-1 w-[50%]

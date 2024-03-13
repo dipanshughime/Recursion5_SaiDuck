@@ -44,7 +44,7 @@ const ChatBot = () => {
 
     const headers = {
       Authorization:
-        "Bearer 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",
+        "Bearer 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",
       "Content-Type": "application/json",
     };
 
@@ -73,7 +73,7 @@ const ChatBot = () => {
       console.log("question", question);
 
       const answers = await model.findAnswers(question, data);
-      setAnswer(answers);
+      setAnswer(answers.first);
       console.log(answers);
     }
   };

@@ -7,6 +7,8 @@ import { useLocation } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import TravelForm from "./TravelForm";
 import ChatBot from "./ChatBot";
+import toast from "react-hot-toast";
+
 const ImageDescription = () => {
   const location = useLocation();
   console.log(location.state.location_name);
@@ -19,8 +21,37 @@ const ImageDescription = () => {
   const [currentTime, setCurrentTime] = useState(new Date());
   const [photos, setPhotos] = useState([]);
   const messageRef = useRef(null);
+  const [data, setData] = useState("");
+
+    const getgptData = async ()=>  {
+   const body =  {  
+        //"model":"gpt-3.5-turbo",
+        "model": "gpt-3.5-turbo-0613",
+        "messages": [
+          { 
+            "role": "user",
+          "content": "give me a 2000 word description of taj mahal including its history, geogrophical location and importance and much more as per wikipedia also give me how to reach there via various means of transport from andheri, mumbai if i will departure today in simple words and in single paragraph"
+           }]
+    }
+
+   const headers = {
+    "Authorization": "Bearer",
+    "Content-Type": "application/json" 
+   }
+
+ try {
+    const res = await axios.post("https://api.openai.com/v1/chat/completions",body,{headers:headers})
+     
+    setDescription(res.data.choices[0].message.content);
+    setLoading(false)
+ }catch(e){
+    console.log("err")
+    toast.error("Error fetching data from OpenAI API");
+ }
+}
 
   useEffect(() => {
+    getgptData()
     const getLocation = async () => {
       try {
         if (messageRef.current) {
@@ -69,28 +100,28 @@ const ImageDescription = () => {
 
     getLocation();
     getPhotos();
-  }, []);
+  }, [location.state.location_name]);
 
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const prompt = `give me a one paragraph description of the ${location.state.location_name}`;
-        const generatedContent = await getRequest(prompt);
-        setDescription(generatedContent);
+    // const fetchData = async () => {
+    //   try {
+    //     const prompt = `give me a one paragraph description of the ${location.state.location_name}`;
+    //     const generatedContent = await getRequest(prompt);
+    //     setDescription(generatedContent);
 
-        const reachPrompt = `give me a route to reach the location ${location.state.location_name} from the location at latitude ${latitude}, longitude ${longitude} from time ${currentTime}, give the response in the form of a list like Bus 234 from Collector Colony bus stop at 10 am Take Flight of 10.45 am from Mumbai Airport to Agra You reach at your destination by 12 am`;
-        const generatedReach = await getRequest(reachPrompt);
-        setReach(generatedReach);
+    //     const reachPrompt = `give me a route to reach the location ${location.state.location_name} from the location at latitude ${latitude}, longitude ${longitude} from time ${currentTime}, give the response in the form of a list like Bus 234 from Collector Colony bus stop at 10 am Take Flight of 10.45 am from Mumbai Airport to Agra You reach at your destination by 12 am`;
+    //     const generatedReach = await getRequest(reachPrompt);
+    //     setReach(generatedReach);
 
-        setLoading(false);
-      } catch (error) {
-        setError(error.message);
-      }
-    };
+    //     setLoading(false);
+    //   } catch (error) {
+    //     setError(error.message);
+    //   }
+    // };
 
-    if (latitude !== null && longitude !== null) {
-      fetchData();
-    }
+    // if (latitude !== null && longitude !== null) {
+    //   fetchData();
+    // }
   }, []);
 
   const getRequest = async (prompt) => {
@@ -128,7 +159,7 @@ const ImageDescription = () => {
   };
 
   return (
-    <div className="bg-[#000004] h-screen">
+    <div className="bg-[#000004] h-full">
       <Navbar />
       <div className="flex flex-col mx-auto p-10 ">
         <div className="flex w-full gap-3 mt-8">
@@ -153,15 +184,17 @@ const ImageDescription = () => {
             {location.state.location_name.toString().toUpperCase()}
           </h2>
           {loading ? (
-            <div className="dot-spinner mb-4">
-              {[...Array(8)].map((_, index) => (
-                <div key={index} className="dot-spinner__dot" />
-              ))}
-            </div>
+            <div className="flex flex-col gap-2 mb-4">
+            <div className="skeleton h-20 w-full"></div>
+            <div className="skeleton h-4 w-28"></div>
+            <div className="skeleton h-4 w-full"></div>
+            <div className="skeleton h-4 w-full"></div>
+          </div>
+
           ) : (
             <>
-              <p className="mb-4 text-white">{description}</p>
-          
+              <p className="mb-4 text-white">{description.split("\n\n")[0]}</p>
+              <p className="mb-4 text-white">{description.split("\n\n")[1]}</p>
             </>
           )}
                             <button
@@ -182,7 +215,7 @@ const ImageDescription = () => {
           </form>
 
        
-          <ChatBot/>
+          <ChatBot data={description}/>
      
         </div>
       </dialog>
