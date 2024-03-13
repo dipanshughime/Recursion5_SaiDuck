@@ -4,6 +4,19 @@
 
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,400;0,600;1,400;1,600&display=swap");
 
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+      display: none;
+  }
+ /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+      -ms-overflow-style: none;  /* IE and Edge */
+      scrollbar-width: none;  /* Firefox */
+}
+}
+
+
 h1,
 p {
   font-family: "Roboto", sans-serif;
@@ -18,7 +31,11 @@ body {
   background-color: #000004;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  @apply bg-[#000004];
+ 
+}
+
+body {
+  @apply bg-[#000004]
 }
 
 .prevent-select {

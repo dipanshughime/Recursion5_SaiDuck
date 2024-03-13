@@ -6,7 +6,7 @@ import {
   SignedOut,
   useUser,
 } from "@clerk/clerk-react";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { firestore, doc, getDoc, setDoc } from "../firebase";
 import { Canvas } from "@react-three/fiber";
@@ -18,8 +18,11 @@ import upload from "../utils/upload";
 import { Toaster, toast } from "react-hot-toast";
 import TravelForm from "./TravelForm";
 
+import { FaMicrophone, FaPause } from "react-icons/fa";
+
 const Home = () => {
   const navigate = useNavigate();
+  const [utterance, setUtterance] = useState(null);
   const [destination, setDestination] = React.useState(null);
   const [imageUrl, setImageUrl] = React.useState([]);
 
@@ -74,6 +77,47 @@ const Home = () => {
   };
 
   console.log("destination", destination);
+  const [text, setText] = useState("");
+  const [isListening, setIsListening] = useState(false);
+  const recognition = new window.webkitSpeechRecognition();
+
+  recognition.continuous = true;
+  recognition.interimResults = true;
+  recognition.lang = "en-US";
+
+  recognition.onstart = () => {
+    // setIsListening(true);
+  };
+
+  recognition.onerror = (event) => {
+    console.error("Speech recognition error detected: ", event.error);
+    // setIsListening(false);
+  };
+
+  recognition.onend = () => {
+    // setIsListening(false);
+  };
+
+  recognition.onresult = (event) => {
+    let interimTranscript = "";
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        setDestination(transcript);
+      } else {
+        interimTranscript += transcript;
+      }
+    }
+  };
+
+  const toggleListening = () => {
+    if (isListening) {
+      recognition.stop();
+    } else {
+      recognition.start();
+    }
+    setIsListening(!isListening);
+  };
 
   return (
     <div className="relative bg-[#0004] h-screen w-full overflow-x-hidden">
@@ -104,16 +148,21 @@ const Home = () => {
           Plan your next unforgettable trip effortlessly and <br /> start making
           memories that last a lifetime
         </p>
-        <label
-          class="block prevent-select mt-8 relative w-1/3 justify-center border py-2 px-2 rounded-md gap-2 shadow-2xl focus-within:border-gray-300"
-          for="search-bar"
-        >
+        <label className="block prevent-select mt-8 relative w-1/3 justify-center border py-2 px-2 rounded-md gap-2 shadow-2xl focus-within:border-gray-300 flex">
           <input
             onChange={(e) => setDestination(e.target.value)}
             id="search-bar"
-            placeholder="enter your destination"
-            class="px-2 py-1 w-full rounded-md text-white outline-none bg-transparent"
+            value={destination}
+            placeholder="Enter your destination"
+            className="px-2 py-1 w-full rounded-md text-white outline-none bg-transparent"
           />
+          <button
+            onClick={toggleListening}
+            className="flex items-center justify-center text-white"
+          >
+            {isListening ? <FaPause /> : <FaMicrophone />}
+          </button>
+          <p>{text}</p>
         </label>
 
         <div className="flex items-center justify-center w-1/3 my-4">

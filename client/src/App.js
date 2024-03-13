@@ -7,8 +7,13 @@ import Home from "./pages/Home";
 import TravelForm from "./pages/TravelForm";
 import ImageDescription from "./pages/ImageDescription";
 import ChatBot from "./pages/ChatBot";
+import { Example } from "@react-three/drei";
 
 const router = createBrowserRouter([
+  {
+    path: "/speech",
+    element: <Example/>,
+  },
   {
     path: "/chat",
     element: <ChatBot />,
