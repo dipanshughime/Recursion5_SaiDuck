@@ -6,12 +6,18 @@ import Onboarding from "./pages/OnBoarding";
 import Home from "./pages/Home";
 import TravelForm from "./pages/TravelForm";
 import ImageDescription from "./pages/ImageDescription";
+import ChatBot from "./pages/Chat";
+import Example from "./components/SpeechToText";
 
 const router = createBrowserRouter([
-  // {
-  //   path: "/dest",
-  //   element: <Onboarding />,
-  // },
+  {
+    path: "/speech",
+    element: <Example />,
+  },
+  {
+    path: "/chat",
+    element: <ChatBot />,
+  },
   {
     path: "/login",
     element: <Login />,
