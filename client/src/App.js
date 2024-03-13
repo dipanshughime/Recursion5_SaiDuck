@@ -5,12 +5,13 @@ import Login from "./pages/Login";
 import Onboarding from "./pages/OnBoarding";
 import Home from "./pages/Home";
 import TravelForm from "./pages/TravelForm";
+import ImageDescription from "./pages/ImageDescription";
 
 const router = createBrowserRouter([
-  {
-    path: "/onboarding",
-    element: <Onboarding />,
-  },
+  // {
+  //   path: "/dest",
+  //   element: <Onboarding />,
+  // },
   {
     path: "/login",
     element: <Login />,
@@ -25,7 +26,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/destination/:location",
-    element: <TravelForm />,
+    element: <ImageDescription />,
   },
 ]);
 function App() {
