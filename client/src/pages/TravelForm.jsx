@@ -1,7 +1,9 @@
 import React, { useState } from "react";
 import ResponsePg from "./ResponsePg";
+import { useNavigate } from "react-router-dom";
 
 function TravelForm() {
+  const navigate = useNavigate(); 
   const [sourceLocation, setSourceLocation] = useState("");
   const [destinationLocation, setDestinationLocation] = useState("");
   const [numberOfPeople, setNumberOfPeople] = useState(1);
@@ -26,8 +28,8 @@ function TravelForm() {
     Given the following parameters: User
     plane a detail trip to :  ${destinationLocation} from ${sourceLocation} starting from date ${startDate} and end date of trip ${endDate} ,number of people :${numberOfPeople},mode of transport :${transportMode}, i am having  budget  of ₹${budget} ,food type {foodType} , Is associated with kids: ${isKidsAssociated}
     generate a complete trip day wise in which each day has number of activities also give the flight links also all the links required in format given below
-    The response shoulde be in a correct and perfect define  format with out any extra new line and spaces 
-    the format of the response should be in  only 
+    The response shoulde be in a correct and perfect define  format with out any extra new line and spaces , in description : of activity only give the place name
+    the format of the response should be in only always put xx in front of day and dont give **(bold) font and put && before and after all flight booking links and put && before and after all the hotel booking links
     same as below example
         
     Give the response with flight link in the below pattern only \n refers to next line  \n\n refers to skip the next line
@@ -55,56 +57,46 @@ function TravelForm() {
         Booking Link: \n\n
         
     Trip Itineraries day wise: \n\n
-         
-    Day 1:\n\n
         
-    Date:23/2/24    \n
-    Total cost for Day: 20000   \n
-    Food:\n
-      details for whole day : \n
-      Cost: 2000 rs   \n\n
+    
           
-      Day 1:\n
+      xxDay 1:\n
       Date: {date}\n
      Activity 1:\n 
-    Description best desert of dubai    \n
+    Description :best desert of dubai    \n
       Start Time: {start time}\n
       End Time: {end time}\n
       Location: Desert Safari\n
-       Latitute :20.12\n
-      longitude:80.23\n
+      
       Cost/Person: 100 Rs\n\n
           
       Activity 2:\n
-      Description best desert of dubai    \n
+      Description: best desert of dubai    \n
       Start Time: {start time}\n
       End Time: {end time}\n
       Location: Skydive Dubai\n
-        Latitute :20.12\n
-      longitude:80.23\n
+   
       Cost/Person: 600 Rs\n\n
           
       Total Day Cost for day1: 2800 Rs \n\n\n
         
         
-      Day 2:\n
+      xxDay 2:\n
       Date: {date}\n
       Activity 1:\n
-     Description best desert of dubai    \n
+     Description :best desert of dubai    \n
       Start Time: {start time}\n
       End Time: {end time}\n
       Location: Dubai Mall\n
-       Latitute :20.12\n
-      longitude:80.23\n
+     
       Cost/Person: Free\n\n
           
       Activity 2:\n
-     Description best desert of dubai    \n
+     Description : best desert of dubai    \n
       Start Time: {start time}\n
       End Time: {end time}\n
       Location: Burj Khalifa\n
-       Latitute :20.12\n
-      longitude:80.23\n
+     
       Cost/Person: 1200 Rs\n\n
           
       Total Day 2Cost: 2400 Rs\n\n\n
@@ -116,6 +108,10 @@ function TravelForm() {
       const generatedContent = await getRequest(prompt);
       console.log("Generated Content:", generatedContent);
       setGeneratedContent(generatedContent);
+
+      navigate("/res",{
+        state: {response : generatedContent}
+      })
 
       // Reset form fields
       setSourceLocation("");
@@ -133,7 +129,7 @@ function TravelForm() {
   };
 
   async function getRequest(prompt) {
-    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=`;
+    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCBMhFeEw_AqvxOlO5LrIXE_PQisMEHarE`;
     const headers = {
       "Content-Type": "application/json",
     };
@@ -168,9 +164,6 @@ function TravelForm() {
 
   return (
     <>
-      {generatedContent ? (
-        <ResponsePg generatedContent={generatedContent} />
-      ) : (
         <form
           onSubmit={handleSubmit}
           className="max-w-sm
@@ -322,7 +315,6 @@ function TravelForm() {
             Submit
           </button>
         </form>
-      )}
     </>
   );
 }

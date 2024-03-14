@@ -10,6 +10,8 @@ import ImageDescription from "./pages/ImageDescription";
 // import { Example } from "@react-three/drei";
 import ChatBot from "./pages/Chat";
 import Example from "./components/SpeechToText";
+import TextToSpeech from "./components/TextToSpeech";
+import ResponsePg from "./pages/ResponsePg";
 
 const router = createBrowserRouter([
   {
@@ -19,6 +21,10 @@ const router = createBrowserRouter([
   {
     path: "/chat",
     element: <ChatBot />,
+  },
+  {
+    path: "/res",
+    element: <ResponsePg />,
   },
   {
     path: "/login",
@@ -35,6 +41,10 @@ const router = createBrowserRouter([
   {
     path: "/destination/:location",
     element: <ImageDescription />,
+  },
+  {
+    path: "/t-s",
+    element: <TextToSpeech />,
   },
 ]);
 function App() {

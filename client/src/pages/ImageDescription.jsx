@@ -8,6 +8,8 @@ import Navbar from "../components/Navbar";
 import TravelForm from "./TravelForm";
 import ChatBot from "./ChatBot";
 import toast from "react-hot-toast";
+// import 'dotenv/config';
+
 
 const ImageDescription = () => {
   const location = useLocation();
@@ -35,7 +37,7 @@ const ImageDescription = () => {
     }
 
    const headers = {
-    "Authorization": "Bearer ",
+    "Authorization": `Bearer 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`,
     "Content-Type": "application/json" 
    }
 
@@ -52,6 +54,7 @@ const ImageDescription = () => {
 
   useEffect(() => {
     getgptData()
+    console.log("THE KEY IS " , process.env.REACT_APP_GPT_KEY)
     const getLocation = async () => {
       try {
         if (messageRef.current) {

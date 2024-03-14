@@ -159,6 +159,11 @@ console.log('Model loaded.',  loadedModel)
                             {
                                 q.q.length > 0 && 
                                 q.q.map((res, index)=>{
+                                    if(index>0){
+                                        return
+                                    }
+                                    utterance.text = res.text;
+    speechSynthesis.speak(utterance);
                                     return <div  key={index}
                             
                                     className='bg-red-500 my-2
