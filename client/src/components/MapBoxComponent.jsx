@@ -14,9 +14,10 @@ import {
 import "mapbox-gl-controls/lib/controls.css";
 
 mapboxgl.accessToken =
-  "API_KEY";
+  "pk.eyJ1IjoibXJ1bmFsMTIzNDU2Nzg5IiwiYSI6ImNsbWhzbWF2cTBzajAzcXIybTVoa3g1anQifQ.66Fu05Ii8-NVd-w-C-FSgA";
+// "pk.eyJ1IjoiYXlhYW56YXZlcmkiLCJhIjoiY2ttZHVwazJvMm95YzJvcXM3ZTdta21rZSJ9.WMpQsXd5ur2gP8kFjpBo8g";
 
-class MapboxComponent extends React.Component {
+class PolyLineComponent extends React.Component {
   constructor(props) {
     super(props);
   }
@@ -24,8 +25,8 @@ class MapboxComponent extends React.Component {
   componentDidMount() {
     const map = new mapboxgl.Map({
       container: "map",
-      style: "mapbox://styles/mapbox/navigation-night-v1",
-      center: [-73.985664, 40.748514],
+      style: "mapbox://styles/mapbox/streets-v10",
+      center: [73.867204, 18.470839],
       zoom: 12,
     });
 
@@ -35,32 +36,10 @@ class MapboxComponent extends React.Component {
       profile: "mapbox/driving",
     });
 
-    // Directions
-    map.addControl(directions, "bottom-left");
-
     // map.on("load", function () {
     //   directions.setOrigin("Toronto, Ontario"); // On load, set the origin to "Toronto, Ontario".
     //   directions.setDestination("Montreal, Quebec"); // On load, set the destination to "Montreal, Quebec".
     // });
-
-    directions.on("route", (e) => {
-      // routes is an array of route objects as documented here:
-      // https://docs.mapbox.com/api/navigation/#route-object
-
-      let routes = e.route;
-
-      // // Each route object has a distance property
-      // console.log(
-      //   'Route lengths',
-      //   routes.map((r) => r.distance)
-      //);
-      this.props.setPath(routes[0].distance);
-      this.props.setTime(routes[0].duration);
-      this.props.setSource(directions.getOrigin().geometry.coordinates);
-      this.props.setDestination(
-        directions.getDestination().geometry.coordinates
-      );
-    });
 
     // Styles
     map.addControl(new StylesControl(), "bottom-left");
@@ -75,4 +54,4 @@ class MapboxComponent extends React.Component {
     return <div className="mapWrapper" id="map" />;
   }
 }
-export default MapboxComponent;
+export default PolyLineComponent;

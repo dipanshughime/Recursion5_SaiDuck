@@ -10,7 +10,6 @@ import ChatBot from "./ChatBot";
 import toast from "react-hot-toast";
 // import 'dotenv/config';
 
-
 const ImageDescription = () => {
   const location = useLocation();
   console.log(location.state.location_name);
@@ -25,46 +24,50 @@ const ImageDescription = () => {
   const messageRef = useRef(null);
   const [data, setData] = useState("");
 
-    const getgptData = async ()=>  {
-   const body =  {  
-        //"model":"gpt-3.5-turbo",
-        "model": "gpt-3.5-turbo-0613",
-        "messages": [
-          { 
-            "role": "user",
-          "content": "give me a 2000 word description of taj mahal including its history, geogrophical location and importance and much more as per wikipedia also give me how to reach there via various means of transport from andheri, mumbai if i will departure today in simple words and in single paragraph"
-           }]
-    }
+  const getgptData = async () => {
+    const body = {
+      //"model":"gpt-3.5-turbo",
+      model: "gpt-3.5-turbo",
+      messages: [
+        {
+          role: "user",
+          content: `give me a 1000 word description of ${location.state.location_name} including its history, geogrophical location and importance and much more as per wikipedia also give me how to reach there via various means of transport from andheri, mumbai if i will departure today.`,
+        },
+      ],
+    };
 
-   const headers = {
-    "Authorization": `Bearer `,
-    "Content-Type": "application/json" 
-   }
+    const headers = {
+      Authorization:
+        "Bearer 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",
+      "Content-Type": "application/json",
+    };
 
- try {
-    const res = await axios.post("https://api.openai.com/v1/chat/completions",body,{headers:headers})
-     
-    setDescription(res.data.choices[0].message.content);
-    setLoading(false)
- }catch(e){
-    console.log("err")
-    toast.error("Error fetching data from OpenAI API");
- }
-}
+    try {
+      const res = await axios.post(
+        "https://api.openai.com/v1/chat/completions",
+        body,
+        { headers: headers }
+      );
+
+      setDescription(res.data.choices[0].message.content);
+      setLoading(false);
+    } catch (e) {
+      console.log("err");
+      toast.error("Error fetching data from OpenAI API");
+    }
+  };
 
   useEffect(() => {
-    getgptData()
-    console.log("THE KEY IS " , process.env.REACT_APP_GPT_KEY)
+    getgptData();
     const getLocation = async () => {
       try {
         if (messageRef.current) {
-            messageRef.current.scrollIntoView(
-              {
-                behavior: 'smooth',
-                block: 'end',
-                inline: 'nearest'
-              })
-          }
+          messageRef.current.scrollIntoView({
+            behavior: "smooth",
+            block: "end",
+            inline: "nearest",
+          });
+        }
         if (navigator.geolocation) {
           navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -111,17 +114,14 @@ const ImageDescription = () => {
     //     const prompt = `give me a one paragraph description of the ${location.state.location_name}`;
     //     const generatedContent = await getRequest(prompt);
     //     setDescription(generatedContent);
-
     //     const reachPrompt = `give me a route to reach the location ${location.state.location_name} from the location at latitude ${latitude}, longitude ${longitude} from time ${currentTime}, give the response in the form of a list like Bus 234 from Collector Colony bus stop at 10 am Take Flight of 10.45 am from Mumbai Airport to Agra You reach at your destination by 12 am`;
     //     const generatedReach = await getRequest(reachPrompt);
     //     setReach(generatedReach);
-
     //     setLoading(false);
     //   } catch (error) {
     //     setError(error.message);
     //   }
     // };
-
     // if (latitude !== null && longitude !== null) {
     //   fetchData();
     // }
@@ -188,40 +188,70 @@ const ImageDescription = () => {
           </h2>
           {loading ? (
             <div className="flex flex-col gap-2 mb-4">
-            <div className="skeleton h-20 w-full"></div>
-            <div className="skeleton h-4 w-28"></div>
-            <div className="skeleton h-4 w-full"></div>
-            <div className="skeleton h-4 w-full"></div>
-          </div>
-
+              <div className="skeleton h-20 w-full"></div>
+              <div className="skeleton h-4 w-28"></div>
+              <div className="skeleton h-4 w-full"></div>
+              <div className="skeleton h-4 w-full"></div>
+            </div>
           ) : (
             <>
               <p className="mb-4 text-white">{description.split("\n\n")[0]}</p>
               <p className="mb-4 text-white">{description.split("\n\n")[1]}</p>
             </>
           )}
-                            <button
-        className="btn px-6"
-        onClick={() => document.getElementById("my_modal_5").showModal()}
-      >
-        Have  a question? Ask the expert!
-      </button>
-      <dialog id="my_modal_5" className="modal">
-        <div 
-        
-        ref={messageRef}
-        className="modal-box bg-[#000004] h-2/3 no-scrollbar flex flex-col items-center">
-          <form method="dialog" className="ml-1/2">
-            <button className="btn text-white btn-lg btn-circle btn-ghost absolute right-2 top-2">
-              ✕
-            </button>
-          </form>
+          <div className="grid grid-cols-3 w-2/3  mx-auto gap-4 my-10">
+            <div className="flex gap-3 w-full bg-slate-200 items-center justify-start rounded-md p-4 shadow-sm">
+              <img
+                className="h-14 w-14  rounded-full"
+                src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/32/Icon-mode-bus-default.svg/2048px-Icon-mode-bus-default.svg.png"
+                alt=""
+              />
+              <div className="flex flex-col">800m from nearest Bus station</div>
+            </div>
 
-       
-          <ChatBot data={description}/>
-     
-        </div>
-      </dialog>
+            <div className="flex gap-3 w-full bg-slate-200 items-center justify-start rounded-md p-4 shadow-sm">
+              <img
+                className="h-14 w-14  rounded-full"
+                src="https://cdn-icons-png.flaticon.com/512/3373/3373986.png"
+                alt=""
+              />
+              <div className="flex flex-col">
+                2.5km away from Agra Railway station
+              </div>
+            </div>
+
+            <div className="flex gap-3 w-full bg-slate-200 items-center justify-start rounded-md p-4 shadow-sm">
+              <img
+                className="h-14 w-14  rounded-full"
+                src="https://cdn-icons-png.flaticon.com/512/7720/7720736.png"
+                alt=""
+              />
+              <div className="flex flex-col">18km away from Delhi Airport</div>
+            </div>
+          </div>
+
+          <button className="btn">
+            <a href="https://65d48357fe477cbd8289b506--stellar-flan-1e2dae.netlify.app/">
+              View on Interactive Mode
+            </a>
+          </button>
+
+          <dialog id="my_modal_5" className="modal">
+            <div
+              ref={messageRef}
+              className="modal-box bg-[#000004] h-2/3 no-scrollbar flex flex-col items-center"
+            >
+              <form method="dialog" className="ml-1/2">
+                <h1 className="mb-6 mt-3 font-bold text-white text-center mx-auto">
+                  Ask question related to this Location
+                </h1>
+                <button className="btn text-white btn-lg btn-circle btn-ghost absolute right-2 top-2">
+                  ✕
+                </button>
+              </form>
+              <ChatBot data={description} />
+            </div>
+          </dialog>
         </div>
       </div>
     </div>

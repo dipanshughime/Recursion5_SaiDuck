@@ -5,6 +5,7 @@
   "dependencies": {
     "@clerk/clerk-react": "^4.30.5",
     "@clerk/themes": "^1.7.9",
+    "@mapbox/mapbox-gl-directions": "^4.3.0",
     "@react-three/drei": "^9.102.3",
     "@react-three/fiber": "^8.15.19",
     "@tensorflow-models/qna": "^1.0.2",
@@ -15,6 +16,8 @@
     "dotenv": "^16.4.5",
     "events": "^3.3.0",
     "firebase": "^10.8.1",
+    "mapbox-gl": "^3.2.0",
+    "mapbox-gl-controls": "^2.3.5",
     "react": "^18.2.0",
     "react-circular-progressbar": "^2.1.0",
     "react-date-picker": "^10.6.0",

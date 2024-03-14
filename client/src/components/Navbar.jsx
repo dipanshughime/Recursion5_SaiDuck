@@ -20,7 +20,15 @@ const Navbar = () => {
   console.log("user", user);
   return (
     <div className="navbar absolute top-0 z-30 bg-transparent px-4 mr-2 mt-1">
-      <div className="flex-1 text-white font-bold text-3xl"></div>
+      <div className="flex-1 text-white font-bold text-3xl">
+        <img
+          onClick={() => document.getElementById("my_modal_5").showModal()}
+          className="
+            h-12 w-12 rounded-full bg-slate-200 shadow p-2 hover:cursor-pointer"
+          src="https://cdn-icons-png.freepik.com/512/8943/8943377.png"
+          alt=""
+        />
+      </div>
       <div className="flex-none gap-5">
         <FormDialog />
         <img
