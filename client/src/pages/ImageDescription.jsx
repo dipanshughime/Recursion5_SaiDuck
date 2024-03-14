@@ -37,7 +37,7 @@ const ImageDescription = () => {
     }
 
    const headers = {
-    "Authorization": `Bearer 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`,
+    "Authorization": `Bearer `,
     "Content-Type": "application/json" 
    }
 
