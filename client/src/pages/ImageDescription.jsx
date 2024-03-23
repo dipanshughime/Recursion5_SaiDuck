@@ -13,18 +13,18 @@ import toast from "react-hot-toast";
 const ImageDescription = () => {
   const location = useLocation();
   console.log(location.state.location_name);
-  const [latitude, setLatitude] = useState(null);
-  const [longitude, setLongitude] = useState(null);
-  const [error, setError] = useState(null);
   const [description, setDescription] = useState("");
-  const [reach, setReach] = useState("");
   const [loading, setLoading] = useState(true);
-  const [currentTime, setCurrentTime] = useState(new Date());
   const [photos, setPhotos] = useState([]);
   const messageRef = useRef(null);
-  const [data, setData] = useState("");
 
-  const getgptData = async () => {
+  const cache = {};
+
+  const getgptData = async (url) => {
+    if (cache[url]) {
+      return cache[url];
+    }
+
     const body = {
       //"model":"gpt-3.5-turbo",
       model: "gpt-3.5-turbo",
@@ -38,55 +38,26 @@ const ImageDescription = () => {
 
     const headers = {
       Authorization:
-        "Bearer",
+        "Bearer ",
       "Content-Type": "application/json",
     };
 
     try {
-      const res = await axios.post(
-        "https://api.openai.com/v1/chat/completions",
-        body,
-        { headers: headers }
-      );
+      const res = await axios.post(url, body, { headers: headers });
 
-      setDescription(res.data.choices[0].message.content);
+      //setDescription(res.data.choices[0].message.content);
+      cache[url] = res.data.choices[0].message.content;
       setLoading(false);
+      return res.data.choices[0].message.content;
     } catch (e) {
       console.log("err");
       toast.error("Error fetching data from OpenAI API");
     }
   };
 
-  useEffect(() => {
-    getgptData();
-    const getLocation = async () => {
-      try {
-        if (messageRef.current) {
-          messageRef.current.scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-            inline: "nearest",
-          });
-        }
-        if (navigator.geolocation) {
-          navigator.geolocation.getCurrentPosition(
-            (position) => {
-              setLatitude(position.coords.latitude);
-              setLongitude(position.coords.longitude);
-              setError(null);
-            },
-            (error) => {
-              setError(error.message);
-            }
-          );
-        } else {
-          setError("Geolocation is not supported by this browser.");
-        }
-      } catch (error) {
-        setError(error.message);
-      }
-    };
 
+
+  useEffect(() => {
     const getPhotos = async () => {
       try {
         const response = await axios.get(
@@ -98,34 +69,16 @@ const ImageDescription = () => {
           }
         );
         setPhotos(response.data.results);
-        console.log(response.data.results);
       } catch (error) {
         console.error("Error fetching photos:", error);
       }
     };
 
-    getLocation();
     getPhotos();
+    getgptData("https://api.openai.com/v1/chat/completions").then((res) =>
+      setDescription(res)
+    );
   }, [location.state.location_name]);
-
-  useEffect(() => {
-    // const fetchData = async () => {
-    //   try {
-    //     const prompt = `give me a one paragraph description of the ${location.state.location_name}`;
-    //     const generatedContent = await getRequest(prompt);
-    //     setDescription(generatedContent);
-    //     const reachPrompt = `give me a route to reach the location ${location.state.location_name} from the location at latitude ${latitude}, longitude ${longitude} from time ${currentTime}, give the response in the form of a list like Bus 234 from Collector Colony bus stop at 10 am Take Flight of 10.45 am from Mumbai Airport to Agra You reach at your destination by 12 am`;
-    //     const generatedReach = await getRequest(reachPrompt);
-    //     setReach(generatedReach);
-    //     setLoading(false);
-    //   } catch (error) {
-    //     setError(error.message);
-    //   }
-    // };
-    // if (latitude !== null && longitude !== null) {
-    //   fetchData();
-    // }
-  }, []);
 
   const getRequest = async (prompt) => {
     const apiUrl =
@@ -230,11 +183,18 @@ const ImageDescription = () => {
             </div>
           </div>
 
-          <button className="btn">
+          {/* <button className="btn">
             <a href="https://65d48357fe477cbd8289b506--stellar-flan-1e2dae.netlify.app/">
               View on Interactive Mode
             </a>
-          </button>
+          </button> */}
+          <div className="w-full h-screen">
+            <iframe
+              className="w-full h-full border-none no-scrollbar"
+              src="https://65d48357fe477cbd8289b506--stellar-flan-1e2dae.netlify.app/"
+              title="description"
+            ></iframe>
+          </div>
 
           <dialog id="my_modal_5" className="modal">
             <div

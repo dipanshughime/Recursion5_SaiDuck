@@ -12,12 +12,12 @@ import ChatBot from "./pages/Chat";
 import Example from "./components/SpeechToText";
 import TextToSpeech from "./components/TextToSpeech";
 import ResponsePg from "./pages/ResponsePg";
-import PolyLineComponent from "./components/MapBoxComponent";
+import MapboxComponent from "./components/MapBoxComponent";
 
 const router = createBrowserRouter([
   {
     path: "/map",
-    element: <PolyLineComponent />,
+    element: <MapboxComponent />,
   },
   {
     path: "/speech",

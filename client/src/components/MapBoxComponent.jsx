@@ -12,6 +12,7 @@ import {
   ZoomControl,
 } from "mapbox-gl-controls";
 import "mapbox-gl-controls/lib/controls.css";
+import { useLocation } from "react-router";
 
 mapboxgl.accessToken =
   "pk.eyJ1IjoibXJ1bmFsMTIzNDU2Nzg5IiwiYSI6ImNsbWhzbWF2cTBzajAzcXIybTVoa3g1anQifQ.66Fu05Ii8-NVd-w-C-FSgA";
@@ -35,11 +36,19 @@ class PolyLineComponent extends React.Component {
       unit: "metric",
       profile: "mapbox/driving",
     });
+    const finalPoints = [];
+    if (this.props.data.length > 0) {
+      for (let i = 0; i < this.props.data.length; i++) {
+        finalPoints.push([
+          this.props.data[i].longitude,
+          this.props.data[i].latitude,
+        ]);
+      }
+    }
 
-    // map.on("load", function () {
-    //   directions.setOrigin("Toronto, Ontario"); // On load, set the origin to "Toronto, Ontario".
-    //   directions.setDestination("Montreal, Quebec"); // On load, set the destination to "Montreal, Quebec".
-    // });
+    if (finalPoints.length > 0) {
+      finalPoints.map((d, i) => new mapboxgl.Marker().setLngLat(d).addTo(map));
+    }
 
     // Styles
     map.addControl(new StylesControl(), "bottom-left");
@@ -54,4 +63,11 @@ class PolyLineComponent extends React.Component {
     return <div className="mapWrapper" id="map" />;
   }
 }
-export default PolyLineComponent;
+
+const MapboxComponent = () => {
+  const location = useLocation();
+
+  return <PolyLineComponent data={location.state} />;
+};
+
+export default MapboxComponent;

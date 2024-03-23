@@ -55,6 +55,7 @@ const Home = () => {
       return navigate(`/destination/${destination}`, {
         state: { location_name: destination },
       });
+
     const data = {
       image_url: imageUrl[0],
     };
